@@ -1,4 +1,7 @@
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+
 import org.junit.*;
 
 public class PublicTester {
@@ -134,7 +137,7 @@ public class PublicTester {
     public void testCalender(){
         MyCalendar cal = new MyCalendar();
         // check MyTreeMap is initialized
-        assertNotNull(cal.getCalender());
+        assertNotNull(cal.getCalendar());
         // Book an event on a calender with no event
         assertTrue(cal.book(10, 20));
         // Book a conflicting event
