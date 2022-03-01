@@ -1,6 +1,7 @@
 /**
  * This is a simplified implementation of Java TreeMap data structure.
- * Name: CSE 12 Instruction team
+ * Name: Jianwei Gong
+ * Email: jig184@ucsd.edu
  * Sources used: OpenJDK
  * 
  * This is a helper file offered to CSE 12 students, it contains the methods 
@@ -8,7 +9,6 @@
  * about TreeMap, refer to the Javadoc official website.
  */
 public class MyTreeMap<K extends Comparable<K>,V> extends MyBST<K, V>{
-    
     /**
      * Returns a key-value mapping associated with the least key greater 
      * than or equal to the given key, or null if there is no such key.
@@ -18,12 +18,12 @@ public class MyTreeMap<K extends Comparable<K>,V> extends MyBST<K, V>{
     public K ceilingKey(K key){
         MyBSTNode<K,V> curr = super.root;
         while (curr != null) {
-            int cmp = key.compareTo(curr.key);
+            int cmp = key.compareTo(curr.getKey());
             // if input key is smaller than current node's key
             if (cmp < 0) {
-                if (curr.left != null){
+                if (curr.getLeft() != null){
                     //continue to go to left subtree to find the target key
-                    curr = curr.left;
+                    curr = curr.getLeft();
                 }
                 else{
                     //no left subtree, current key is the ceiling
@@ -31,17 +31,17 @@ public class MyTreeMap<K extends Comparable<K>,V> extends MyBST<K, V>{
                 }
             } else if (cmp > 0) {
                 // if input key is greater than current node's key
-                if (curr.right != null) {
+                if (curr.getRight() != null) {
                     //continue to go to left subtree to find the target key
-                    curr = curr.right;
+                    curr = curr.getRight();
                 } else {
                     // right child is null, find the in order successor
                     // Does the following code look familiar to you?
-                    MyBSTNode<K,V> parent = curr.parent;
+                    MyBSTNode<K,V> parent = curr.getParent();
                     MyBSTNode<K,V> ch = curr;
-                    while (parent != null && ch == parent.right) {
+                    while (parent != null && ch == parent.getRight()) {
                         ch = parent;
-                        parent = parent.parent;
+                        parent = parent.getParent();
                     }
                     return parent == null ? null : parent.getKey();
                 }
@@ -60,21 +60,21 @@ public class MyTreeMap<K extends Comparable<K>,V> extends MyBST<K, V>{
     public K floorKey(K key){
         MyBSTNode<K,V> curr = super.root;
         while (curr != null) {
-            int cmp = key.compareTo(curr.key);
+            int cmp = key.compareTo(curr.getKey());
             if (cmp > 0) {
-                if (curr.right != null)
-                    curr = curr.right;
+                if (curr.getRight() != null)
+                    curr = curr.getRight();
                 else
                     return curr.getKey();
             } else if (cmp < 0) {
-                if (curr.left != null) {
-                    curr = curr.left;
+                if (curr.getLeft() != null) {
+                    curr = curr.getLeft();
                 } else {
-                    MyBSTNode<K,V> parent = curr.parent;
+                    MyBSTNode<K,V> parent = curr.getParent();
                     MyBSTNode<K,V> ch = curr;
-                    while (parent != null && ch == parent.left) {
+                    while (parent != null && ch == parent.getLeft()) {
                         ch = parent;
-                        parent = parent.parent;
+                        parent = parent.getParent();
                     }
                     return parent == null ? null : parent.getKey();
                 }

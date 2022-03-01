@@ -1,16 +1,16 @@
 public class MyCalendar {
-    private MyTreeMap<Integer, Integer> calendar;
+    MyTreeMap<Integer, Integer> calendar;
     
     public MyCalendar() {
         // TODO
     }
     
     public boolean book(int start, int end) {
-        // TODO 
+        // TODO
         return false;
     }
 
-    public MyTreeMap<Integer, Integer> getCalendar(){
+    public MyTreeMap getCalendar(){
         return this.calendar;
     }
 }
