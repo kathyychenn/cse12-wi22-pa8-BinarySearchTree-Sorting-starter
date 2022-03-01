@@ -36,18 +36,23 @@ public class MyBSTIterator<K extends Comparable<K>,V> extends MyBST<K,V>
             return next != null;
         }
 
-        public MyBSTNode<K,V> nextNode(){
+        MyBSTNode<K,V> nextNode(){
             // TODO
             return null;
         }
         
+        /**
+         * This method removes the node returned by prevous call to nextNode
+         */
         public void remove(){
-            //TODO implement this method, delete hint, add your own comment.
-            // hint: 1. draw out a full tree, think about all the possible 
-            // position that iterator sits in between.
-            // 2. Carefully handle the case when lastVisited has two children,
-            // examine the remove method, especially how does reference is 
-            // manipulated.
+            //TODO Understand this method add your own comment for each 
+            /// line of code. Then delete "TODO".
+            if(lastVisited == null){throw new IllegalStateException();}
+            if(lastVisited.getRight() != null&& lastVisited.getLeft() != null){
+                next = lastVisited;
+            }
+            MyBSTIterator.this.remove(lastVisited.getKey());
+            lastVisited = null;
         }
     }
 

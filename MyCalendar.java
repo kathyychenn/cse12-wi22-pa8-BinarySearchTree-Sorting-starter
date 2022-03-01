@@ -11,7 +11,7 @@
 
  
 public class MyCalendar {
-    public MyTreeMap<Integer, Integer> calender;
+    private MyTreeMap<Integer, Integer> calendar;
     
     public MyCalendar() {
         // TODO
@@ -22,7 +22,7 @@ public class MyCalendar {
         return false;
     }
 
-    public MyTreeMap getCalender(){
-        return this.calender;
+    public MyTreeMap getCalendar(){
+        return this.calendar;
     }
 }
