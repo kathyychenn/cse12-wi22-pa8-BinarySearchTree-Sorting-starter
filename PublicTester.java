@@ -143,5 +143,8 @@ public class PublicTester {
         // Book a conflicting event
         assertFalse(cal.book(5, 15));
         assertFalse(cal.book(15, 25));
+        //events can be consecutive
+        assertTrue(cal.book(0, 10));
+        assertTrue(cal.book(20, 30));
     }
 }
