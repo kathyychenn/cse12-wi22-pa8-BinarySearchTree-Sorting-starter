@@ -43,7 +43,8 @@ public class PublicTester {
         two.setLeft(one);
         two.setRight(three);
         six.setLeft(five);
-        }
+        this.completeTree.size = 6;
+    }
 
     // ====== MyBSTNode class ======
 
@@ -92,14 +93,16 @@ public class PublicTester {
     @Test
     public void testInorder(){
         MyBST.MyBSTNode<Integer, Integer> root = completeTree.root; 
-        ArrayList<MyBST.MyBSTNode<Integer, Integer>> expectedRes = new ArrayList<>();
+        ArrayList<MyBST.MyBSTNode<Integer, Integer>> expectedRes 
+            = new ArrayList<>();
         expectedRes.add(root.getLeft().getLeft());
         expectedRes.add(root.getLeft());
         expectedRes.add(root.getLeft().getRight());
         expectedRes.add(root);
         expectedRes.add(root.getRight().getLeft());
         expectedRes.add(root.getRight());
-        ArrayList<MyBST.MyBSTNode<Integer, Integer>> actualRes = completeTree.inorder();
+        ArrayList<MyBST.MyBSTNode<Integer, Integer>> actualRes 
+            = completeTree.inorder();
         for (int i=0; i<expectedRes.size(); i++){
             assertSame(expectedRes.get(i), actualRes.get(i));
         }
