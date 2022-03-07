@@ -123,18 +123,35 @@ public class MyBST<K extends Comparable<K>,V>{
 
     public V remove(K key){
         // TODO
-        if(key == null){
+        if(key == null || this.search(key) == null){
             return null;
         }
+        V val = this.search(key);
+
         return null;
     }
     
     public ArrayList<MyBSTNode<K, V>> inorder(){
         // TODO
+        ArrayList<MyBSTNode<K, V>> ret = new ArrayList<MyBSTNode<K, V>>();
         if(this.size() == 0){
-            return new ArrayList<MyBSTNode<K, V>>();
+            return ret;
         }
-        return null;
+        MyBSTNode<K,V> curr = this.min(this.root);
+        while(curr.successor()!=null){
+            ret.add(curr);
+            curr = curr.successor();
+        }
+        return ret;
+    }
+
+    private MyBSTNode<K,V> min(MyBSTNode<K,V> curr){
+        if(curr.getLeft()==null){
+            return curr;
+        }
+        else{
+            return min(curr.getLeft());
+        }
     }
 
     static class MyBSTNode<K,V>{

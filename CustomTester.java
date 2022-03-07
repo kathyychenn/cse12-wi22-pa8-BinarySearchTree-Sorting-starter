@@ -82,4 +82,32 @@ public class CustomTester {
     public void testSearchNonExist(){
         assertNull(testTree.search(7));
     }
+
+    //Test inorder method when BST is empty
+    @Test
+    public void testInorderEmpty(){
+        MyBST<Integer, Integer> emptyTree = new MyBST<Integer, Integer>();
+
+        assertEquals(new ArrayList<MyBST.MyBSTNode<Integer, Integer>>(), 
+                    emptyTree.inorder());
+    }
+
+    // Test inorder method
+    @Test
+    public void testInorder(){
+        MyBST.MyBSTNode<Integer, Integer> root = testTree.root; 
+        ArrayList<MyBST.MyBSTNode<Integer, Integer>> expectedRes 
+            = new ArrayList<>();
+        expectedRes.add(root.getLeft().getLeft());
+        expectedRes.add(root.getLeft());
+        expectedRes.add(root.getLeft().getRight());
+        expectedRes.add(root);
+        expectedRes.add(root.getRight().getLeft());
+        expectedRes.add(root.getRight());
+        ArrayList<MyBST.MyBSTNode<Integer, Integer>> actualRes 
+            = testTree.inorder();
+        for (int i=0; i<expectedRes.size(); i++){
+            assertSame(expectedRes.get(i), actualRes.get(i));
+        }
+    }
 }
