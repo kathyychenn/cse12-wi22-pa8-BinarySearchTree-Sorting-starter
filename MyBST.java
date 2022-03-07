@@ -32,7 +32,7 @@ public class MyBST<K extends Comparable<K>,V>{
         }
 
         MyBSTNode<K,V> curr = this.root;
-        while(curr.getLeft() != null && curr.getRight() != null){
+        while(curr.predecessor() != null && curr.successor() != null){
             //if node with equal key exists, replace key with new value and
             //return value that was replaced
             if(curr.getKey().equals(key)){
@@ -59,15 +59,21 @@ public class MyBST<K extends Comparable<K>,V>{
         }
 
         MyBSTNode<K,V> newNode = new MyBSTNode<K,V>(key, value, curr);
-        if(key.compareTo(curr.getKey()) < 0 && curr.getLeft() != null){     
-            newNode.setLeft(curr.getLeft());
-            newNode.getLeft().setParent(newNode);
-            
+        if(key.compareTo(curr.getKey()) < 0){     
+            if(curr.getLeft() != null){
+                newNode.setLeft(curr.getLeft());
+                newNode.getLeft().setParent(newNode);
+            }
+            newNode.parent.setLeft(newNode);
         }
         
-        else if(key.compareTo(curr.getKey()) > 0 && curr.getRight() != null){
-            newNode.setRight(curr.getRight());
-            newNode.getRight().setParent(newNode);
+        else if(key.compareTo(curr.getKey()) > 0){
+            if(curr.getRight() != null)
+            {
+                newNode.setRight(curr.getRight());
+                newNode.getRight().setParent(newNode);
+            }
+            newNode.parent.setRight(newNode);
         }
         return null;
     }
