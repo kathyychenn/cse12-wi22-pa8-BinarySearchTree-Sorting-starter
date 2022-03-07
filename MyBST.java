@@ -5,27 +5,94 @@ public class MyBST<K extends Comparable<K>,V>{
     MyBSTNode<K,V> root = null;
     int size = 0;
 
+    private final String NULL_EXCEPTION = "invalid null arg";
+
     public int size(){
         return size;
     }
 
+    /**
+     * Insert new node with args key and value into BST according to BST 
+     * properties, updating tree size accordingly
+     * @param key - key arg of new Node to be inserted
+     * @param value - value arg of new Node to be inserted
+     * @return value of node that was replaced by new value
+     */
     public V insert(K key, V value){
         // TODO
+        //throw null exception if key is null
+        if(key == null){
+            throw new NullPointerException(NULL_EXCEPTION);
+        }
+        //if BST empty, add new node as root
+        if(this.size()==0){
+            this.root = new MyBSTNode<K,V>(key,value,null);
+            this.size++;
+            return null;
+        }
+
+        MyBSTNode<K,V> curr = this.root;
+        while(curr.getLeft() != null && curr.getRight() != null){
+            //if node with equal key exists, replace key with new value and
+            //return value that was replaced
+            if(curr.getKey().equals(key)){
+                MyBSTNode<K,V> ret = curr;
+                curr.setValue(value);
+                return ret.getValue();
+            }
+
+            K currPreKey = curr.predecessor().getKey();
+            K currSucKey = curr.successor().getKey();
+
+            if(key.compareTo(curr.getKey())<0 && key.compareTo(currPreKey)>0){
+                continue;
+            }
+            if(key.compareTo(curr.getKey())>0 && key.compareTo(currSucKey)<0){
+                continue;
+            }
+            if(key.compareTo(curr.getKey())>0){
+                curr = curr.successor();
+            }
+            else{
+                curr = curr.predecessor();
+            }
+        }
+
+        MyBSTNode<K,V> newNode = new MyBSTNode<K,V>(key, value, curr);
+        if(key.compareTo(curr.getKey()) < 0 && curr.getLeft() != null){     
+            newNode.setLeft(curr.getLeft());
+            newNode.getLeft().setParent(newNode);
+            
+        }
+        
+        else if(key.compareTo(curr.getKey()) > 0 && curr.getRight() != null){
+            newNode.setRight(curr.getRight());
+            newNode.getRight().setParent(newNode);
+        }
         return null;
     }
 
     public V search(K key){
         // TODO
+        if(key == null){
+            return null;
+        }
         return null;
     }
 
     public V remove(K key){
         // TODO
+        if(key == null){
+            return null;
+        }
         return null;
     }
     
     public ArrayList<MyBSTNode<K, V>> inorder(){
         // TODO
+        if(this.size() == 0){
+            return new ArrayList<MyBSTNode<K, V>>();
+        }
         return null;
     }
 
@@ -132,25 +199,27 @@ public class MyBST<K extends Comparable<K>,V>{
         }
 
         /**
-         * TODO: add inline comments for this method to demonstrate your
-         *   understanding of this method. The predecessor can be implemented
-         *   in a similar way.
-         *
          * This method returns the in order successor of current node object.
          * It can be served as a helper method when implementing inorder().
          * @return the successor of current node object
          */
         public MyBSTNode<K, V> successor(){
+            //if right isn't null check right subtree for smallest key still
+            //greater than this key
             if(this.getRight() != null){
                 MyBSTNode<K,V> curr = this.getRight();
+                //check left branch for return node
                 while(curr.getLeft() != null){
                     curr = curr.getLeft();
                 }
                 return curr;
             }
+            //if this node has no right child, return parent node if greater
+            //if not then this node is greatest key of BST, return null
             else{
                 MyBSTNode<K,V> parent = this.getParent();
                 MyBSTNode<K,V> curr = this;
+                //iterate to root if this key is greatest key in BST
                 while(parent != null && curr == parent.getRight()){
                     curr = parent;
                     parent = parent.getParent();
@@ -159,9 +228,34 @@ public class MyBST<K extends Comparable<K>,V>{
             }
         }
 
+        /**
+         * This method returns the in order predecessor of current node object.
+         * It can be served as a helper method when implementing inorder().
+         * @return the predecessor of current node object
+         */
         public MyBSTNode<K, V> predecessor(){
-            // TODO
-            return null;
+            //if left isn't null check left subtree for smallest key still
+            //greater than this key
+            if(this.getLeft() != null){
+                MyBSTNode<K,V> curr = this.getLeft();
+                //check right branch for return node
+                while(curr.getRight() != null){
+                    curr = curr.getRight();
+                }
+                return curr;
+            }
+            //if this node has no left child, return parent node if greater
+            //if not then this node is smallest key of BST, return null
+            else{
+                MyBSTNode<K,V> parent = this.getParent();
+                MyBSTNode<K,V> curr = this;
+                //iterate to root if this key is greatest key in BST
+                while(parent != null && curr == parent.getLeft()){
+                    curr = parent;
+                    parent = parent.getParent();
+                }
+                return parent;
+            }
         }
 
         /** This method compares if two node objects are equal.
