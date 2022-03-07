@@ -19,7 +19,6 @@ public class MyBST<K extends Comparable<K>,V>{
      * @return value of node that was replaced by new value
      */
     public V insert(K key, V value){
-        // TODO
         //throw null exception if key is null
         if(key == null){
             throw new NullPointerException(NULL_EXCEPTION);
@@ -41,13 +40,13 @@ public class MyBST<K extends Comparable<K>,V>{
                 return ret.getValue();
             }
 
+            //instance variables for predeccessor and successor of curr
             K currPreKey = curr.predecessor().getKey();
             K currSucKey = curr.successor().getKey();
 
-            if(key.compareTo(curr.getKey())<0 && key.compareTo(currPreKey)>0){
-                continue;
-            }
-            if(key.compareTo(curr.getKey())>0 && key.compareTo(currSucKey)<0){
+            //if key is between curr key and either pre key or suc key, exit
+            if(key.compareTo(curr.getKey())<0 && key.compareTo(currPreKey)>0 ||
+                key.compareTo(curr.getKey())>0 && key.compareTo(currSucKey)<0){
                 continue;
             }
             if(key.compareTo(curr.getKey())>0){
@@ -58,7 +57,10 @@ public class MyBST<K extends Comparable<K>,V>{
             }
         }
 
+        //node to insert
         MyBSTNode<K,V> newNode = new MyBSTNode<K,V>(key, value, curr);
+
+        //set left and parent variables if key is less than curr key
         if(key.compareTo(curr.getKey()) < 0){     
             if(curr.getLeft() != null){
                 newNode.setLeft(curr.getLeft());
@@ -67,6 +69,7 @@ public class MyBST<K extends Comparable<K>,V>{
             newNode.parent.setLeft(newNode);
         }
         
+        //set right and parent variables if key is greater than curr key
         else if(key.compareTo(curr.getKey()) > 0){
             if(curr.getRight() != null)
             {
@@ -75,15 +78,47 @@ public class MyBST<K extends Comparable<K>,V>{
             }
             newNode.parent.setRight(newNode);
         }
+
+        this.size++;
         return null;
     }
 
+    /**
+     * Search for node with equal key to given key and return the node's value 
+     * @param key - key to be searched for throughout BST
+     * @return value of given key within BTS, null if key is null or not found
+     */
     public V search(K key){
-        // TODO
         if(key == null){
             return null;
         }
-        return null;
+        //helper method search thru tree for given key
+        return searchHelper(this.root, key);
+    }
+
+    /**
+     * private recursive helper method for search
+     * @param curr - node representing current location during iteration of BTS
+     * @param key - key to be searched for throughout BST
+     * @return value of given key within BTS, null if key not found
+     */
+    private V searchHelper(MyBSTNode<K,V> curr, K key){
+        //return null if key not found
+        if(curr == null){
+            return null;
+        }
+        //return curr value if equal to given key
+        if(curr.getKey().equals(key)){
+            return curr.getValue();
+        }
+        //recursive call with curr right if curr key greater than given key
+        if(curr.getKey().compareTo(key) < 0){
+            return searchHelper(curr.getRight(), key);
+        }
+        //recursive call with curr left if curr key less than given key
+        else{
+            return searchHelper(curr.getLeft(), key);
+        }
     }
 
     public V remove(K key){

@@ -70,4 +70,16 @@ public class CustomTester {
         emptyTree.insert(6, 1);
         assertEquals((Integer)6, emptyTree.root.getKey());
     }
+
+    //Test search method when key is null
+    @Test
+    public void testSearchNull(){
+        assertNull(testTree.search(null));
+    }
+
+    //Test search method when key does not exist
+    @Test
+    public void testSearchNonExist(){
+        assertNull(testTree.search(7));
+    }
 }
