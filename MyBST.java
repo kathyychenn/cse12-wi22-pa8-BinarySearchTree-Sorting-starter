@@ -22,8 +22,6 @@ public class MyBST<K extends Comparable<K>,V>{
     MyBSTNode<K,V> root = null;
     int size = 0;
 
-    private final String NULL_EXCEPTION = "invalid null arg";
-
     /**
      * accessor method to return the number of nodes in the BST
      * @return number of nodes in the BST
@@ -42,7 +40,7 @@ public class MyBST<K extends Comparable<K>,V>{
     public V insert(K key, V value){
         //throw null exception if key is null
         if(key == null){
-            throw new NullPointerException(NULL_EXCEPTION);
+            throw new NullPointerException();
         }
         //if BST empty, add new node as root
         if(this.size()==0){
