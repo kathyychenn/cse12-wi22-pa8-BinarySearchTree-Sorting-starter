@@ -1,7 +1,29 @@
+/**
+ * Name: Kathy Chen
+ * PID: A17030814
+ * Sources: None
+ * 
+ * This is the MyBSTIterator java file for PA 8. It contains the MyBSTIterator
+ * generic class which contains the MyBSTKeyIterator class, the 
+ * MyBSTValueIterator class, and the MyBSTNodeIterator generic abstract class 
+ * which extends MyBST within.
+ */
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * A MyBSTIterator class that contains accessor methods which return the key 
+ * iterator and the value iterator of the BST. It contains more classes within
+ * which specify the functionality of the class such as MyBSTNodeIterator,
+ * MyBSTKeyIterator, and MyBSTValueIterator.
+ */
 public class MyBSTIterator<K extends Comparable<K>, V> extends MyBST<K, V> {
+    /**
+     * A MyBSTNodeIterator abstract class that holds references to the next and
+     * lastVisitied nodes of the iterator. It contains a constructor method to
+     * initialize the references and methods to advance the iterator or remove
+     * nodes from the BST.
+     */
     abstract class MyBSTNodeIterator<T> implements Iterator<T> {
         MyBSTNode<K, V> next;
         MyBSTNode<K, V> lastVisited;
@@ -26,27 +48,44 @@ public class MyBSTIterator<K extends Comparable<K>, V> extends MyBST<K, V> {
             return next != null;
         }
 
+        /**
+         * This method advances the iterator to the next node and returns the
+         * node that was advanced to
+         * @return the node that was advanced to 
+         */
         MyBSTNode<K, V> nextNode() {
-            // TODO
-            return null;
+            //throw null exception if there is no next node
+            if(!this.hasNext()){
+                throw new NullPointerException();
+            }
+            //initialize variable to store initial next Node
+            MyBSTNode<K,V> initNext = next;
+           
+            //advance iterator to next node
+            next = next.successor();
+            lastVisited = initNext;
+
+            //return node we advanced to
+            return initNext;
         }
 
         /**
-         * TODO: add inline comments for this method to demonstrate your
-         *   understanding of this method.
-         *
          * This method removes the last visited node from the tree.
          */
         public void remove() {
-            if (lastVisited == null) {
-                throw new IllegalStateException();
+            if (lastVisited == null) { //iterator has not advanced or remove 
+                                       //was just called
+                throw new IllegalStateException(); // throw illegal exception
             }
             if (lastVisited.getRight() != null &&
-                    lastVisited.getLeft() != null) {
-                next = lastVisited;
+                    lastVisited.getLeft() != null) { 
+                    // lastVisited is not a leaf node
+                next = lastVisited; // move iterator position back
             }
+            //remove lastVisited node from BST
             MyBSTIterator.this.remove(lastVisited.getKey());
-            lastVisited = null;
+            lastVisited = null; // set to null - cannot remove again until 
+                                //iterator is advanced
         }
     }
 
@@ -97,7 +136,7 @@ public class MyBSTIterator<K extends Comparable<K>, V> extends MyBST<K, V> {
      * This method is used to obtain an iterator that iterates through the
      * value of BST.
      *
-     * @return The value iterator of BST.
+     * @return The key iterator of BST.
      */
     public MyBSTKeyIterator getKeyIterator() {
         MyBSTNode<K, V> curr = root;

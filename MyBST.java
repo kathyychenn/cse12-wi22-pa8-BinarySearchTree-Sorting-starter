@@ -1,12 +1,33 @@
+/**
+ * Name: Kathy Chen
+ * PID: A17030814
+ * Sources:
+ * https://learn.zybooks.com/zybook/UCSDCSE12Winter2022/chapter/7/section/6
+ * Lecture Notes Week 7 Trees and BSTs
+ * 
+ * This is the MyBST java file for PA 8. It contains the MyBST generic class 
+ * which extends the generic Comparable interface and the static MyBSTNode 
+ * generic class within.
+ */
+
 import java.util.ArrayList;
 
-
+/**
+ * A MyBST class extends the generic interface Comparable and holds the BST
+ * size and a reference to the root node. It contains modifier methods to add
+ * new nodes, remove nodes, search for nodes, and conduct a traversal.
+ */
 public class MyBST<K extends Comparable<K>,V>{
+    //initialize instance variables
     MyBSTNode<K,V> root = null;
     int size = 0;
 
     private final String NULL_EXCEPTION = "invalid null arg";
 
+    /**
+     * accessor method to return the number of nodes in the BST
+     * @return number of nodes in the BST
+     */
     public int size(){
         return size;
     }
@@ -89,62 +110,138 @@ public class MyBST<K extends Comparable<K>,V>{
      * @return value of given key within BTS, null if key is null or not found
      */
     public V search(K key){
+        //return null if key null
         if(key == null){
             return null;
         }
-        //helper method search thru tree for given key
-        return searchHelper(this.root, key);
+       
+        //initialize curr node variable as BST root
+        MyBSTNode<K,V> curr = this.root;
+        while (curr != null) {
+            //Node with key equal to given key found
+            if (key.equals(curr.getKey())) {
+                return curr.getValue(); 
+            }
+            //search left if curr key is less than given key
+            else if (key.compareTo(curr.getKey()) < 0) {
+                curr = curr.getLeft();
+            }
+            //search right if curr key is greater than given key
+            else {
+                curr = curr.getRight();
+            }
+        }
+        //node with same key as given key not found
+        return null;
     }
 
     /**
-     * private recursive helper method for search
-     * @param curr - node representing current location during iteration of BTS
-     * @param key - key to be searched for throughout BST
-     * @return value of given key within BTS, null if key not found
+     * remove a node with key equal to  given key according to BST properties
+     * and return the value of removed node, updating tree size accoordingly
      */
-    private V searchHelper(MyBSTNode<K,V> curr, K key){
-        //return null if key not found
-        if(curr == null){
-            return null;
-        }
-        //return curr value if equal to given key
-        if(curr.getKey().equals(key)){
-            return curr.getValue();
-        }
-        //recursive call with curr right if curr key greater than given key
-        if(curr.getKey().compareTo(key) < 0){
-            return searchHelper(curr.getRight(), key);
-        }
-        //recursive call with curr left if curr key less than given key
-        else{
-            return searchHelper(curr.getLeft(), key);
-        }
-    }
-
     public V remove(K key){
-        // TODO
-        if(key == null || this.search(key) == null){
+        //initialize instance variables for parent and current node
+        MyBSTNode<K,V> par = null;
+        MyBSTNode<K,V> curr = this.root;
+        
+        //return null if key is null
+        if(key == null){
             return null;
         }
-        V val = this.search(key);
+        //search for node or until whole BST has been searched
+        while (curr != null) { 
+            V ogCurrValue = curr.getValue();
+            //Node found
+            if (curr.getKey().equals(key)) { 
+                //remove leaf node - no replacement needed
+                if (curr.getLeft() == null && curr.getRight() == null) {
+                    if (par == null) // Node is root
+                        this.root = null;
+                    else if (par.getLeft() == curr) //remove left child
+                        par.setLeft(null);
+                    else par.setRight(null); //remove right child 
+                }
 
+                // Remove node with one left child
+                else if (curr.getRight() == null) {                
+                    if (par == null) // Node is root
+                        this.root = curr.getLeft();
+                    else if (par.getLeft() == curr) 
+                        par.setLeft(curr.getLeft());
+                    else
+                        par.setRight(curr.getLeft());
+                }
+                // Remove node with one right child
+                else if (curr.getLeft() == null) {                
+                    if (par == null) // Node is root
+                        this.root = curr.getRight();
+                    else if (par.getLeft() == curr) 
+                        par.setLeft(curr.getRight());
+                    else
+                        par.setRight(curr.getRight());
+                }
+                // Remove node with two children - replace with successor
+                else {                                      
+                    // Find successor (leftmost child of right subtree)                        
+                    MyBSTNode<K,V> sucNode = curr.successor();
+
+                    curr.setKey(sucNode.getKey());
+                    curr.setValue(sucNode.getValue());
+
+                    //remove successor from initial position
+                    if(sucNode == sucNode.getParent().getLeft()){
+                        sucNode.getParent().setLeft(null);
+                    }
+                    else sucNode.getParent().setRight(null);
+                }
+                this.size--;
+                return ogCurrValue;// Node found and removed
+            }
+            // Search right
+            else if (curr.getKey().compareTo(key) < 0) { 
+                par = curr;
+                curr = curr.getRight();
+            }
+            // Search left
+            else {                     
+                par = curr;
+                curr = curr.getLeft();
+            }
+        }
+        // Node with given key not found
         return null;
     }
     
+    /**
+     * Conduct in-order traversal of BST, adding each node to the end of an 
+     * ArrayList which is then returned
+     * @return - ArrayList of all nodes sorted in key order, empty if BST empty
+     */
     public ArrayList<MyBSTNode<K, V>> inorder(){
-        // TODO
+        // initialize ArrayList which will be returned
         ArrayList<MyBSTNode<K, V>> ret = new ArrayList<MyBSTNode<K, V>>();
+
+        //return empty ArrayList if BST size is 0
         if(this.size() == 0){
             return ret;
         }
+
+        /**
+         * iterate through BST in key order starting at smallest key
+         * and add each node to end of ArrayList
+         */
         MyBSTNode<K,V> curr = this.min(this.root);
         while(curr.successor()!=null){
             ret.add(curr);
             curr = curr.successor();
         }
+
+        //add last node of BST then return Arraylist
+        ret.add(curr);
         return ret;
     }
 
+    //helper method - find smallest (leftmost) key of BST
     private MyBSTNode<K,V> min(MyBSTNode<K,V> curr){
         if(curr.getLeft()==null){
             return curr;
