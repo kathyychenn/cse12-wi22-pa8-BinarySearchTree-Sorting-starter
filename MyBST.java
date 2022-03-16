@@ -136,6 +136,8 @@ public class MyBST<K extends Comparable<K>,V>{
     /**
      * remove a node with key equal to  given key according to BST properties
      * and return the value of removed node, updating tree size accoordingly
+     * @param key - key of desired node to be removed from BST
+     * @return value of the node that was removed
      */
     public V remove(K key){
         //initialize instance variables for parent and current node
@@ -213,7 +215,7 @@ public class MyBST<K extends Comparable<K>,V>{
     /**
      * Conduct in-order traversal of BST, adding each node to the end of an 
      * ArrayList which is then returned
-     * @return - ArrayList of all nodes sorted in key order, empty if BST empty
+     * @return - ArrayList of all nodes sorted in key order
      */
     public ArrayList<MyBSTNode<K, V>> inorder(){
         // initialize ArrayList which will be returned
@@ -239,7 +241,11 @@ public class MyBST<K extends Comparable<K>,V>{
         return ret;
     }
 
-    //helper method - find smallest (leftmost) key of BST
+    /**
+     * helper method - find smallest (leftmost) key of BST
+     * @param curr - current location of node during recursive calls
+     * @return smallest node of BST
+    */
     private MyBSTNode<K,V> min(MyBSTNode<K,V> curr){
         if(curr.getLeft()==null){
             return curr;
@@ -417,7 +423,8 @@ public class MyBST<K extends Comparable<K>,V>{
             }
         }
 
-        /** This method compares if two node objects are equal.
+        /** 
+         * This method compares if two node objects are equal.
          * @param obj The target object that the currect object compares to.
          * @return Boolean value indicates if two node objects are equal
          */
