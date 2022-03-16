@@ -249,6 +249,12 @@ public class MyBST<K extends Comparable<K>,V>{
         }
     }
 
+    /**
+     * A MyBSTNode generic class which stores the key and the value and holds
+     * references to its parent, left child, and right child nodes. It contains
+     * accessor methods to return the instance variables, modifier methods to 
+     * reset the variables and successor and predecessor methods.
+     */
     static class MyBSTNode<K,V>{
         private static final String TEMPLATE = "Key: %s, Value: %s";
         private static final String NULL_STR = "null";

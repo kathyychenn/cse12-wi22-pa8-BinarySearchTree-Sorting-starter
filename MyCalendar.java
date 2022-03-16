@@ -34,7 +34,6 @@ public class MyCalendar {
      * @return boolean whether event was booked successfully
      */
     public boolean book(int start, int end) {
-        // TODO
         //throw exception if start is invalid
         if(start < 0 || start >= end){
             throw new IllegalArgumentException();
@@ -72,6 +71,10 @@ public class MyCalendar {
         return false;
     }
 
+    /**
+     * accessor method that returns the calendar MyTreeMap object
+     * @return calendar MyTreeMap variable of this MyCalendar object
+     */
     public MyTreeMap getCalendar(){
         return this.calendar;
     }

@@ -56,7 +56,7 @@ public class MyBSTIterator<K extends Comparable<K>, V> extends MyBST<K, V> {
         MyBSTNode<K, V> nextNode() {
             //throw null exception if there is no next node
             if(!this.hasNext()){
-                throw new NullPointerException();
+                throw new NoSuchElementException();
             }
             //initialize variable to store initial next Node
             MyBSTNode<K,V> initNext = next;
@@ -94,6 +94,10 @@ public class MyBSTIterator<K extends Comparable<K>, V> extends MyBST<K, V> {
      */
     class MyBSTKeyIterator extends MyBSTNodeIterator<K> {
 
+        /**
+         * Constructor method to create a MyBSTKeyIterator object
+         * @param first - first Node variable of iterator
+         */
         MyBSTKeyIterator(MyBSTNode<K, V> first) {
             super(first);
         }

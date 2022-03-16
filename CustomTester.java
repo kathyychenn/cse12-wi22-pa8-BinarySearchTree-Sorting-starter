@@ -1,3 +1,12 @@
+/**
+ * Name: Kathy Chen
+ * PID: A17030814
+ * 
+ * This file contains all of the student-written tests. It contains test 
+ * methods for the MyBSTNode, MyBST, and MyBSTIterator classes to ensure 
+ * accuracy (return correct values, correctly modify sets, exceptions, etc). 
+ */
+
 import java.util.*;
 import static org.junit.Assert.*;
 import org.junit.*;
@@ -70,6 +79,8 @@ public class CustomTester {
         emptyTree.insert(6, 1);
         assertEquals((Integer)6, emptyTree.root.getKey());
     }
+
+    //Test insert method
 
     //Test search method when key is null
     @Test
@@ -172,7 +183,7 @@ public class CustomTester {
         try {
             vi.nextNode();
             fail();
-        } catch (NullPointerException e) {
+        } catch (NoSuchElementException e) {
             //successfully caught exception
         }
     }

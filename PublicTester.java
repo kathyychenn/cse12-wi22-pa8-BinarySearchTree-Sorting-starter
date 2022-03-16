@@ -130,6 +130,9 @@ public class PublicTester {
         assertSame(completeTree.root.successor(), vi.next);
         // root become the last visited node
         assertSame(completeTree.root, vi.lastVisited);
+        
+        vi.nextNode();
+        
     }
 
     // ====== Calender class ======
